@@ -4,13 +4,21 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.awt.event.ActionListener;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import javax.swing.JSlider;
+import java.awt.FlowLayout;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class SecretMsgGUI extends JPanel {
 	private JTextField txtKey;
 	private JTextArea txtOut;
 	private JTextArea txtIn;
+	private JSlider slider;
 
 	public String encode(String message, int k){
 		String out = "";
@@ -41,12 +49,26 @@ public class SecretMsgGUI extends JPanel {
 		setLayout(null);
 		
 		txtIn = new JTextArea();
-		txtIn.setBounds(12, 18, 426, 96);
+		txtIn.setBounds(12, 11, 426, 96);
 		add(txtIn);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(186, 132, 252, 35);
+		panel.setBounds(12, 118, 426, 63);
 		add(panel);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		slider = new JSlider();
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				txtKey.setText(" " + slider.getValue());
+			}
+		});
+		slider.setMajorTickSpacing(13);
+		slider.setMinorTickSpacing(1);
+		slider.setValue(0);
+		slider.setMinimum(-13);
+		slider.setMaximum(13);
+		panel.add(slider);
 		
 		JLabel lblKey = new JLabel("Key:");
 		panel.add(lblKey);
@@ -62,7 +84,7 @@ public class SecretMsgGUI extends JPanel {
 				// get the message from txtIn
 				String message = txtIn.getText();
 
-				// get the key amount from txtkey
+				// get the key amount from txtKey
 				int key = Integer.parseInt(txtKey.getText());
 				
 				// encode that message with that key
@@ -76,12 +98,22 @@ public class SecretMsgGUI extends JPanel {
 		
 		txtOut = new JTextArea();
 		txtOut.setColumns(10);
-		txtOut.setBounds(12, 185, 426, 96);
+		txtOut.setBounds(12, 192, 426, 96);
 		add(txtOut);
+		setPreferredSize(new Dimension(450, 300));
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		// set up a window JFrame for the app
+		JFrame frame = new JFrame("jTams Secret Msg");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// add the encoder panel to the frame
+		frame.getContentPane().add(new SecretMsgGUI());
+		
+		// prepare and show the frame
+		frame.pack();
+		frame.setVisible(true);
 
 	}
 }
