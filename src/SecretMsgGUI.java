@@ -48,6 +48,12 @@ public class SecretMsgGUI extends JPanel {
 	public SecretMsgGUI() {
 		setLayout(null);
 		
+		txtKey = new JTextField();
+		txtKey.setHorizontalAlignment(SwingConstants.CENTER);
+		txtKey.setText("0");
+		
+		txtKey.setColumns(3);
+		
 		txtIn = new JTextArea();
 		txtIn.setBounds(12, 11, 426, 96);
 		add(txtIn);
@@ -56,27 +62,26 @@ public class SecretMsgGUI extends JPanel {
 		panel.setBounds(12, 118, 426, 63);
 		add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel.add(txtKey);
 		
 		slider = new JSlider();
 		slider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				txtKey.setText(" " + slider.getValue());
+				txtKey.setText("" + slider.getValue());
 			}
 		});
 		slider.setMajorTickSpacing(13);
 		slider.setMinorTickSpacing(1);
-		slider.setValue(0);
 		slider.setMinimum(-13);
 		slider.setMaximum(13);
+		slider.setValue(0);
 		panel.add(slider);
 		
 		JLabel lblKey = new JLabel("Key:");
 		panel.add(lblKey);
 		lblKey.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-		txtKey = new JTextField();
-		panel.add(txtKey);
-		txtKey.setColumns(3);
+		
 		
 		JButton btnEncodedecode = new JButton("ENCODE/DECODE");
 		btnEncodedecode.addActionListener(new ActionListener() {
